@@ -13,12 +13,14 @@ import {
   formatSleeveShock,
   formatSleeveSynchro,
 } from "../../../ui/formatNumber";
+import { convertTimeMsToTimeElapsedString } from "../../../utils/StringHelperFunctions";
 import { Settings } from "../../../Settings/Settings";
 import { StatsRow } from "../../../ui/React/StatsRow";
 import { useStyles } from "../../../ui/React/CharacterOverview";
 import { Money } from "../../../ui/React/Money";
 import { MoneyRate } from "../../../ui/React/MoneyRate";
 import { ReputationRate } from "../../../ui/React/ReputationRate";
+import { getSkillsRows } from "../../../ui/GetSkillsRows";
 
 import { Sleeve } from "../Sleeve";
 import { isSleeveClassWork } from "../Work/SleeveClassWork";
@@ -47,43 +49,9 @@ export function StatsElement(props: IProps): React.ReactElement {
             content: `${formatHp(props.sleeve.hp.current)} / ${formatHp(props.sleeve.hp.max)}`,
           }}
         />
-        <StatsRow
-          name="Hacking"
-          color={Settings.theme.hack}
-          data={{ level: props.sleeve.skills.hacking, exp: props.sleeve.exp.hacking }}
-        />
-        <StatsRow
-          name="Strength"
-          color={Settings.theme.combat}
-          data={{ level: props.sleeve.skills.strength, exp: props.sleeve.exp.strength }}
-        />
-        <StatsRow
-          name="Defense"
-          color={Settings.theme.combat}
-          data={{ level: props.sleeve.skills.defense, exp: props.sleeve.exp.defense }}
-        />
-        <StatsRow
-          name="Dexterity"
-          color={Settings.theme.combat}
-          data={{ level: props.sleeve.skills.dexterity, exp: props.sleeve.exp.dexterity }}
-        />
-        <StatsRow
-          name="Agility"
-          color={Settings.theme.combat}
-          data={{ level: props.sleeve.skills.agility, exp: props.sleeve.exp.agility }}
-        />
-        <StatsRow
-          name="Charisma"
-          color={Settings.theme.cha}
-          data={{ level: props.sleeve.skills.charisma, exp: props.sleeve.exp.charisma }}
-        />
-        {props.sleeve.skills.intelligence > 0 && (
-          <StatsRow
-            name="Intelligence"
-            color={Settings.theme.int}
-            data={{ level: props.sleeve.skills.intelligence, exp: props.sleeve.exp.intelligence }}
-          />
-        )}
+        {getSkillsRows(props.sleeve).map((r) => (
+          <StatsRow key={r.name} name={r.name} color={r.color} data={{ level: r.level, exp: r.exp }} />
+        ))}
         <TableRow>
           <TableCell classes={{ root: classes.cellNone }}>
             <br />
@@ -103,6 +71,17 @@ export function StatsElement(props: IProps): React.ReactElement {
           name="Memory"
           color={Settings.theme.primary}
           data={{ content: formatSleeveMemory(props.sleeve.memory) }}
+        />
+        <StatsRow
+          name="Bonus Time"
+          color={Settings.theme.primary}
+          data={{
+            content: convertTimeMsToTimeElapsedString(
+              props.sleeve.storedCycles < 10 ? 0 : props.sleeve.storedCycles * CONSTANTS.MilliPerCycle,
+              false,
+              true,
+            ),
+          }}
         />
       </TableBody>
     </Table>
@@ -169,26 +148,22 @@ export function EarningsElement(props: IProps): React.ReactElement {
   }
 
   return (
-    <Table sx={{ display: "table", mb: 1, width: "100%", lineHeight: 0 }}>
-      <TableBody>
-        <TableRow>
-          <TableCell classes={{ root: classes.cellNone }}>
-            <Typography variant="h6">
-              Earnings {props.sleeve.storedCycles > 50 ? "(Boosted by bonus time)" : ""}
-            </Typography>
-          </TableCell>
-        </TableRow>
-        {data.map(([a, b]) => (
-          <TableRow key={getKeyFromReactElements(a, b)}>
-            <TableCell classes={{ root: classes.cellNone }}>
-              <Typography>{a}</Typography>
-            </TableCell>
-            <TableCell align="right" classes={{ root: classes.cellNone }}>
-              <Typography>{b}</Typography>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <>
+      <Typography variant="h6">Earnings {props.sleeve.storedCycles > 50 ? "(Boosted by bonus time)" : ""}</Typography>
+      <Table sx={{ display: "table", mb: 1, width: "100%", lineHeight: 0 }}>
+        <TableBody>
+          {data.map(([a, b]) => (
+            <TableRow key={getKeyFromReactElements(a, b)}>
+              <TableCell sx={{ width: "50%" }} classes={{ root: classes.cellNone }}>
+                <Typography>{a}</Typography>
+              </TableCell>
+              <TableCell sx={{ width: "50%" }} align="right" classes={{ root: classes.cellNone }}>
+                <Typography>{b}</Typography>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 }
