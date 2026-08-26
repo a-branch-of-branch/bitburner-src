@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
 
-import Paper from "@mui/material/Paper";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+import { Paper, Box, Typography, Button, Link } from "@mui/material";
 import { ITutorialEvents } from "./ITutorialEvents";
 import { CopyableText } from "../React/CopyableText";
+import { useStyles as codeBlockStyles } from "../MD/code";
 
-import ListItem from "@mui/material/ListItem";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import LastPageIcon from "@mui/icons-material/LastPage";
 import HelpIcon from "@mui/icons-material/Help";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import StorageIcon from "@mui/icons-material/Storage";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-import { Theme } from "@mui/material/styles";
-import { makeStyles } from "tss-react/mui";
+import { useTheme, styled } from "@mui/material/styles";
 
 import {
   iTutorialPrevStep,
@@ -33,21 +30,15 @@ interface IContent {
   canNext: boolean;
 }
 
-const useStyles = makeStyles()((theme: Theme) => ({
-  textfield: {
-    borderBottom: "1px solid " + theme.palette.primary.main,
-  },
-  code: {
-    whiteSpace: "pre",
-    backgroundColor: theme.palette.background.paper,
-  },
-}));
+export const tutorialScriptName = `hacking.js`;
 
 export function InteractiveTutorialRoot(): React.ReactElement {
-  const { classes } = useStyles();
+  const theme = useTheme();
+  const { classes: codeClasses } = codeBlockStyles();
+  const TerminalText = styled(Typography)(({ theme }) => ({
+    borderBottom: `1px solid ${theme.palette.primary.main}`,
+  }));
   const rerender = useRerender();
-
-  const tutorialScriptName = `n00dles.js`;
 
   const contents: Record<string, IContent | undefined> = {
     [iTutorialSteps.Start as number]: {
@@ -58,115 +49,55 @@ export function InteractiveTutorialRoot(): React.ReactElement {
             future... The year is 2077...
             <br />
             <br />
-            This tutorial will show you the basics of the game. You may skip the tutorial at any time.
+            This tutorial will show you the basics of the game.
             <br />
             <br />
-            You can replay this tutorial by going to the Options tab and pressing "Reset tutorial".
+            If you need to hide this tutorial panel temporarily, you can collapse it.
             <br />
             <br />
-            You can also collapse this panel to temporarily hide this tutorial.
+            You can also exit the tutorial at any time. If you ever want to review it, go to the Options tab and select
+            Repeat Tutorial.
           </Typography>
         </>
       ),
       canNext: true,
-    },
-    [iTutorialSteps.GoToCharacterPage as number]: {
-      content: (
-        <>
-          <Typography>Let's start by heading to the Stats page. Click</Typography>
-          <ListItem>
-            <EqualizerIcon color={"error"} />
-            <Typography color={"error"}>Stats</Typography>
-          </ListItem>
-
-          <Typography>on the main navigation menu (left-hand side of the screen)</Typography>
-        </>
-      ),
-      canNext: false,
-    },
-    [iTutorialSteps.CharacterPage as number]: {
-      content: (
-        <>
-          <ListItem>
-            <EqualizerIcon color={"primary"} />
-            <Typography color={"primary"}>Stats</Typography>
-          </ListItem>
-          <Typography>
-            shows a lot of important information about your progress, such as your skills, money, and bonuses.
-          </Typography>
-        </>
-      ),
-      canNext: true,
-    },
-    [iTutorialSteps.CharacterGoToTerminalPage as number]: {
-      content: (
-        <>
-          <Typography>Let's head to your computer's terminal by clicking</Typography>
-          <ListItem>
-            <LastPageIcon color={"error"} />
-            <Typography color={"error"}>Terminal</Typography>
-          </ListItem>
-          <Typography>on the main navigation menu.</Typography>
-        </>
-      ),
-      canNext: false,
     },
     [iTutorialSteps.TerminalIntro as number]: {
       content: (
         <>
-          <ListItem>
-            <LastPageIcon color={"primary"} />
-            <Typography color={"primary"}>Terminal</Typography>
-          </ListItem>
           <Typography>
-            is used to interface with your home computer as well as all of the other machines around the world.
+            We're currently on the{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <LastPageIcon sx={{ color: theme.palette.primary.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.primary.main }}>Terminal</Typography>
+            </Box>{" "}
+            tab.
+            <br />
+            <br />
+            You can use the{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <LastPageIcon sx={{ color: theme.palette.primary.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.primary.main }}>Terminal</Typography>
+            </Box>{" "}
+            to interface with your home computer, as well as with other machines around the world.
           </Typography>
         </>
       ),
       canNext: true,
     },
-    [iTutorialSteps.TerminalHelp as number]: {
-      content: (
-        <>
-          <Typography>Let's try it out. Start by entering</Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> help"}</Typography>
-          <Typography>(Don't forget to press Enter after typing the command)</Typography>
-        </>
-      ),
-      canNext: false,
-    },
-    [iTutorialSteps.TerminalLs as number]: {
-      content: (
-        <>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> help"}</Typography>
-          <Typography>
-            displays a list of all available Terminal commands, how to use them, and a description of what they do.{" "}
-            <br />
-            <br />
-            Let's try another command. Enter
-          </Typography>
-
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> ls"}</Typography>
-          <Typography>
-            <br />( "ls" is short for "list" )
-          </Typography>
-        </>
-      ),
-      canNext: false,
-    },
     [iTutorialSteps.TerminalScan as number]: {
       content: (
         <>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> ls"}</Typography>
           <Typography>
-            {" "}
-            is a basic command that lists the files on the computer. Right now, it shows that you have a program called{" "}
-            NUKE.exe on your computer. We'll get to what this does later. <br />
+            Let's try that out. Start by entering
             <br />
-            Using your home computer's terminal, you can connect to other machines throughout the world. Let's do that
-            now by first entering
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan"}</Typography>
+          <TerminalText>{"[home /]> scan"}</TerminalText>
+          <Typography>
+            <br />
+            (Don't forget to press Enter after typing the command.)
+          </Typography>
         </>
       ),
       canNext: false,
@@ -174,16 +105,23 @@ export function InteractiveTutorialRoot(): React.ReactElement {
     [iTutorialSteps.TerminalScanAnalyze1 as number]: {
       content: (
         <>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan"}</Typography>
           <Typography>
-            shows all available network connections. In other words, it displays a list of all servers that can be
-            connected to from your current machine. A server is identified by its hostname. <br />
+            Running
             <br />
-            That's great and all, but there's so many servers. Which one should you go to?{" "}
+            <br />
           </Typography>
-
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan-analyze"}</Typography>
-          <Typography>gives some more detailed information about servers on the network. Try it now!</Typography>
+          <TerminalText>{"[home /]> scan"}</TerminalText>
+          <Typography>
+            <br />
+            shows all servers that you can connect to from your current machine. Servers are identified by their
+            hostname.
+            <br />
+            <br />
+            The network's much bigger than these nearby servers though. To start exploring it, let's enter
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[home /]> scan-analyze"}</TerminalText>
         </>
       ),
       canNext: false,
@@ -191,38 +129,59 @@ export function InteractiveTutorialRoot(): React.ReactElement {
     [iTutorialSteps.TerminalScanAnalyze2 as number]: {
       content: (
         <>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan-analyze"}</Typography>
           <Typography>
-            shows more detailed information about each server that you can connect to (servers that are a distance of
-            one node away). <br />
-            <br /> It is also possible to run scan-analyze with a higher depth. Let's try a depth of two with the
-            following command:{" "}
+            That's given us more detailed information about the servers we can connect to.
+            <br />
+            <br />
+            To look depeer into the network, we can change our scanning depth to 2.
+            <br />
+            <br />
           </Typography>
-
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan-analyze 2"}</Typography>
+          <TerminalText>{"[home /]> scan-analyze 2"}</TerminalText>
         </>
       ),
       canNext: false,
+    },
+    [iTutorialSteps.TerminalConnectInterval as number]: {
+      content: (
+        <>
+          <Typography>
+            Now you can see information about all servers that are up to 2 nodes away. You can also see how to navigate
+            to those servers through the network.
+            <br />
+            <br />
+            That's great and all, but there are so many servers. Which one should we go to? Well, let's pick a target we
+            can hack!
+          </Typography>
+        </>
+      ),
+      canNext: true,
     },
     [iTutorialSteps.TerminalConnect as number]: {
       content: (
         <>
           <Typography>
-            Now you can see information about all servers that are up to two nodes away, as well as figure out how to
-            navigate to those servers through the network. You can only connect to a server that is one node away. To
-            connect to a machine, use
+            In the year 2077, currency is digital and decentralized. People and corporations store their money on
+            servers and computers. Using specialised your skills, you can hack servers to steal money and gain
+            experience.
+            <br />
+            <br />
+            If you check the read-out of scan-analyze in the Terminal you can see that n00dles has a required hacking
+            skill of only 1. That means you can hack it right now.
+            <br />
+            <br />
+            To do that, we need to connect to it. You can connect to a machine that is one node away using
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> connect hostname"}</Typography>
-
-          <Typography>From the results of </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> scan-analyze 2"}</Typography>
-
+          <TerminalText>{"[home /]> connect hostname"}</TerminalText>
           <Typography>
-            {" "}
-            we can see that the n00dles server is only one node away. Let's connect to it now using:
+            <br />
+            So let's connect to n00dles.
+            <br />
+            <br />
           </Typography>
-
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> connect n00dles"}</Typography>
+          <TerminalText>{"[home /]> connect n00dles"}</TerminalText>
         </>
       ),
       canNext: false,
@@ -231,15 +190,11 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       content: (
         <>
           <Typography>
-            You are now connected to another machine! What can you do now? You can hack it!
+            Before we try hacking, let's run some diagnostics using
             <br />
-            <br /> In the year 2077, currency has become digital and decentralized. People and corporations store their
-            money on servers and computers. Using your hacking abilities, you can hack servers to steal money and gain
-            experience. <br />
             <br />
-            Before you try to hack a server, you should run diagnostics using{" "}
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> analyze"}</Typography>
+          <TerminalText>{"[n00dles /]> analyze"}</TerminalText>
         </>
       ),
       canNext: false,
@@ -247,26 +202,28 @@ export function InteractiveTutorialRoot(): React.ReactElement {
     [iTutorialSteps.TerminalNuke as number]: {
       content: (
         <>
-          <Typography>When </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> analyze"}</Typography>
-
           <Typography>
-            finishes running it will show useful information about hacking the server. <br />
-            <br /> For this server, the required hacking skill is only 1, which means you can hack it right now.
-            However, in order to hack a server you must first gain root access. The NUKE.exe program that we saw earlier
-            on your home computer is a virus that will grant you root access to a machine if there are enough open
-            ports.
+            When
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> analyze"}</Typography>
-
+          <TerminalText>{"[n00dles /]> analyze"}</TerminalText>
           <Typography>
-            {" "}
-            shows that there do not need to be any open ports on this machine for the NUKE virus to work, so go ahead
-            and run the virus using{" "}
+            <br />
+            finishes running, it displays some useful diagnostic data.
+            <br />
+            <br />
+            If you have a look, you can see the server's root access status. To hack a server, you must gain root access
+            first. Handily, you've come prepared with a virus called NUKE.exe. NUKE.exe will grant you root access to a
+            machine as long as there are enough open ports.
+            <br />
+            <br />
+            If you look at the diagnostics again, you'll see that n00dles' "Required number of open ports for NUKE" is
+            0. So you're good to go ahead and run the virus! Just enter
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> run NUKE.exe"}</Typography>
-
-          <Typography></Typography>
+          <TerminalText>{"[n00dles /]> NUKE.exe"}</TerminalText>
         </>
       ),
       canNext: false,
@@ -274,63 +231,106 @@ export function InteractiveTutorialRoot(): React.ReactElement {
     [iTutorialSteps.TerminalManualHack as number]: {
       content: (
         <>
-          <Typography>You now have root access! You can hack the server using </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> hack"}</Typography>
-
-          <Typography> Try doing that now.</Typography>
+          <Typography>
+            You now have root access! You can hack the server using
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[n00dles /]> hack"}</TerminalText>
+          <Typography>
+            <br />
+            Try doing that now.
+          </Typography>
         </>
       ),
       canNext: true,
     },
     [iTutorialSteps.TerminalHackingMechanics as number]: {
       content: (
-        <Typography component="div">
-          You are now attempting to hack the server. Performing a hack takes time and only has a certain percentage
-          chance of success. This time and success chance is determined by a variety of factors, including your hacking
-          skill and the server's security level.
-          <br />
-          <br />
-          If your attempt to hack the server is successful, you will steal a certain percentage of the server's total
-          money. This percentage is affected by your hacking skill and the server's security level.
-          <br />
-          <br />
-          The amount of money on a server is not limitless. So, if you constantly hack a server and deplete its money,
-          then you will encounter diminishing returns in your hacking. You will need to use{" "}
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> grow"}</Typography>
-          which tricks the company into adding money to their server and{" "}
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> weaken"}</Typography>
-          which increases the speed of hack and grow.
-        </Typography>
+        <>
+          <Typography>
+            You're now attempting to hack the server. Hacking takes time, and has a success chance. If your hack is
+            successful, you'll steal a percentage of the server's available money.
+            <br />
+            <br />
+            All of those variables (hacking time, success chance, and the percentage stolen) are affected by:
+            <ul>
+              <li>your hacking skill</li>
+              <li>the server's security level</li>
+            </ul>
+          </Typography>
+        </>
+      ),
+      canNext: true,
+    },
+    [iTutorialSteps.TerminalWeakenGrowMechanics as number]: {
+      content: (
+        <>
+          <Typography>
+            When you hack a server, you deplete the money it has available, so any following hacks take less money. You
+            also cause its security level to rise, so your hacks take longer.
+            <br />
+            <br />
+            To restore things, you can use
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[n00dles /]> grow"}</TerminalText>
+          <Typography>
+            <br />
+            which tricks the company into adding money to their server, and
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[n00dles /]> weaken"}</TerminalText>
+          <Typography>
+            <br />
+            which lowers the server's security level, speeding up hack, grow and weaken.
+          </Typography>
+        </>
       ),
       canNext: true,
     },
     [iTutorialSteps.TerminalGoHome as number]: {
       content: (
         <>
-          <Typography>From any server you can get back home using</Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[n00dles /]> home"}</Typography>
-
-          <Typography>Let's head home before creating our first script!</Typography>
+          <Typography>
+            Hacking is the core mechanic of the game and is necessary for progression. So you don't want to be hacking
+            manually the entire time. What we need is a way to automate it.
+            <br />
+            <br />
+            So let's head home and create our first script.
+            <br />
+            <br />
+            You can get back home from any server using
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[n00dles /]> home"}</TerminalText>
         </>
       ),
       canNext: false,
     },
+
     [iTutorialSteps.TerminalCreateScript as number]: {
       content: (
         <>
           <Typography>
-            Hacking is the core mechanic of the game and is necessary for progressing. However, you don't want to be
-            hacking manually the entire time. You can automate your hacking by writing scripts!
+            To create a new script or edit an existing one, you can use
             <br />
             <br />
-            To create a new script or edit an existing one, you can use{" "}
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> nano"}</Typography>
-
+          <TerminalText>{"[home /]> nano file"}</TerminalText>
           <Typography>
-            Scripts must end with a script extension (.js, .jsx, .ts, .tsx). Let's make a script now by entering
+            <br />
+            Script names must end with a script extension (.js, .jsx, .ts, .tsx).
+            <br />
+            <br />
+            Let's create a script now by entering
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{`[home /]> nano ${tutorialScriptName}`}</Typography>
+          <TerminalText>{`[home /]> nano ${tutorialScriptName}`}</TerminalText>
         </>
       ),
       canNext: false,
@@ -339,36 +339,43 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       content: (
         <>
           <Typography>
-            This is the script editor. You can use it to program your scripts. Click this text to copy it and paste it
-            into the text editor:
+            This is the script editor.
+            <br />
+            <br />
+            Below is a basic script that hacks n00dles. Copy and paste it into the editor.
           </Typography>
           <br />
-          <Typography component="div" classes={{ root: classes.code }}>
-            {
-              <CopyableText
-                value={`/** @param {NS} ns */
+          <CopyableText
+            className={codeClasses.code}
+            value={`/** @param {NS} ns */
 export async function main(ns) {
   while (true) {
     await ns.hack("n00dles");
   }
 }`}
-              />
-            }
-          </Typography>
+          />
+          <br />
           <br />
           <Typography>
-            For anyone with basic programming experience, this code should be straightforward. This script will
-            continuously hack the n00dles server.
+            Have a look at the code of the script. It says to hack n00dles while true is true – which it always is! So
+            this script hacks n00dles on a loop forever.
             <br />
             <br />
-            Use the search tool at the bottom to find and have a quick glance at documentation of any NS APIs.
+            One benefit of using scripts to hack is that you don't need to be connected to the server you're hacking.
+            You can target any server on the network from any server on the network.
             <br />
             <br />
-            To access <DocumentationLink page={defaultNsApiPage}>NS API documentation</DocumentationLink>, press the
-            link at the bottom.
+            While we're in the editor, it's worth saying that everything we do in this tutorial can be scripted. You can
+            map the network with ns.scan(), run scripts with ns.run() or ns.exec(), and get server information with
+            ns.getServer().
             <br />
             <br />
-            To save and close the script editor, press the button at the bottom.
+            If you ever want to check which functions are available to you in the edior, you can search using the search
+            bar at the bottom, or click the{" "}
+            <DocumentationLink page={defaultNsApiPage}>NS API documentation</DocumentationLink> link beside it.
+            <br />
+            <br />
+            OK, back to hacking. Click Save at the bottom to save your script and close the editor.
           </Typography>
         </>
       ),
@@ -378,14 +385,17 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            Now we'll run the script. Scripts require a certain amount of RAM to run, and can be run on any machine
-            which you have root access to. Different servers have different amounts of RAM. You can also purchase more
-            RAM for your home server.
+            Now we'll run the script. You can run scripts on any server that you have root access to.
+            <br />
+            <br />
+            Scripts need RAM to run, and different servers have different amounts.
             <br />
             <br />
             To check how much RAM is available on this machine, enter
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{"[home /]> free"}</Typography>
+          <TerminalText>{"[home /]> free"}</TerminalText>
         </>
       ),
       canNext: false,
@@ -394,9 +404,15 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            We have 8GB of free RAM on this machine, which is enough to run our script. Let's run our script using
+            We have 8GB of free RAM. If that doesn't sound like much, don't worry: you can purchase more RAM for your
+            home server later.
+            <br />
+            <br />
+            For now, let's run our script using
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{`[home /]> run ${tutorialScriptName}`}</Typography>
+          <TerminalText>{`[home /]> ${tutorialScriptName}`}</TerminalText>
         </>
       ),
       canNext: false,
@@ -405,18 +421,20 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            Your script is now running! It will continuously run in the background and will automatically stop if the
-            code ever completes (the {tutorialScriptName} will never complete because it runs an infinite loop). <br />
+            Your script is now running! Scripts run in the background until their code completes (although
+            {tutorialScriptName} will never complete because it has an infinite loop).
             <br />
-            These scripts can passively earn you income and hacking experience. Your scripts will also earn money and
-            experience while you are offline, although at a slightly slower rate. <br />
+            <br />
+            Scripts can passively earn you income and hacking experience. They'll keep earning even while you're
+            offline, although at a slower rate.
+            <br />
             <br />
             Let's check out some statistics for our running scripts by clicking{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <StorageIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Active Scripts</Typography>
+            </Box>
           </Typography>
-          <ListItem>
-            <StorageIcon color={"error"} />
-            <Typography color={"error"}>Active Scripts</Typography>
-          </ListItem>
         </>
       ),
       canNext: false,
@@ -429,18 +447,18 @@ export async function main(ns) {
             this to gauge how well your scripts are doing.
             <br />
             <br />
-            Click on Home to see the scripts running on it.
+            Click home to see the scripts running on it.
             <br />
             <br />
-            Then click on n00dles.js to see the scripts information.
+            Then click {tutorialScriptName} to see the script's information.
             <br />
             <br />
-            Let's go back to
+            Let's go back to the{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <LastPageIcon sx={{ color: theme.palette.info.main }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Terminal</Typography>
+            </Box>
           </Typography>
-          <ListItem>
-            <LastPageIcon color={"error"} />
-            <Typography color={"error"}>Terminal</Typography>
-          </ListItem>
         </>
       ),
       canNext: false,
@@ -449,10 +467,12 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            One last thing about scripts, each active script contains logs that detail what it's doing. We can check
-            these logs using the tail command. Do that now for the script we just ran by typing{" "}
+            Each active script has logs that detail what it's doing. You can check these logs using the tail command. To
+            do that for the script you just ran, you can enter
+            <br />
+            <br />
           </Typography>
-          <Typography classes={{ root: classes.textfield }}>{`[home /]> tail ${tutorialScriptName}`}</Typography>
+          <TerminalText>{`[home /]> tail ${tutorialScriptName}`}</TerminalText>
         </>
       ),
       canNext: false,
@@ -461,20 +481,105 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            The log for this script won't show much right now (it might show nothing at all) because it just started
-            running...but check back again in a few minutes! <br />
-            <br />
-            This covers the basics of hacking. To learn more about writing scripts, select
+            The log for this script may not show much right now because it just started running... but check back again
+            in a few minutes!
           </Typography>
-          <ListItem>
-            <HelpIcon color={"primary"} />
-            <Typography color={"primary"}>Documentation</Typography>
-          </ListItem>
+        </>
+      ),
+      canNext: true,
+    },
+    [iTutorialSteps.TerminalLs as number]: {
+      content: (
+        <>
           <Typography>
-            in the main navigation menu to look at the documentation.
+            We're not going to get very far running scripts on our home computer alone. We need to copy them to other
+            servers too.
             <br />
             <br />
-            For now, let's move on to something else!
+            Before we do that, let's see what files are stored on our home computer using
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[home /]> ls"}</TerminalText>
+          <Typography>
+            <br />
+            ("ls" is short for "list".)
+          </Typography>
+        </>
+      ),
+      canNext: false,
+    },
+    [iTutorialSteps.TerminalScp as number]: {
+      content: (
+        <>
+          <Typography>
+            That's shown you all the files on your home computer. Right now, you can see NUKE.exe, the program that you
+            used earlier, and {tutorialScriptName}.
+            <br />
+            <br />
+            If you want other servers to run {tutorialScriptName}, you need to copy it to them. (NUKE.exe can't be
+            copied elsewhere. It's only stored on home.)
+            <br />
+            <br />
+            To do that, we use
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[home /]> scp file destination"}</TerminalText>
+          <Typography>
+            <br />
+            To copy {tutorialScriptName} to n00dles, enter
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{`[home /]> scp ${tutorialScriptName} n00dles`}</TerminalText>
+          <Typography>
+            <br />
+            You can then connect to n00dles and run your script on it later.
+            <br />
+            <br />
+          </Typography>
+        </>
+      ),
+      canNext: false,
+    },
+    [iTutorialSteps.TerminalHelp as number]: {
+      content: (
+        <>
+          <Typography>
+            Lastly, if you can't remember the right terminal command, you can always use
+            <br />
+            <br />
+          </Typography>
+          <TerminalText>{"[home /]> help"}</TerminalText>
+        </>
+      ),
+      canNext: false,
+    },
+    [iTutorialSteps.GoToCharacterPage as number]: {
+      content: (
+        <>
+          <Typography>
+            Now we've made some money and exp, let's head to the Stats tab and see what we've gained. Click{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <EqualizerIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Stats</Typography>
+            </Box>{" "}
+            at the left-hand side of the screen.
+          </Typography>
+        </>
+      ),
+      canNext: false,
+    },
+    [iTutorialSteps.CharacterPage as number]: {
+      content: (
+        <>
+          <Typography>
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <EqualizerIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Stats</Typography>
+            </Box>{" "}
+            shows information about your skills, money, and bonuses.
           </Typography>
         </>
       ),
@@ -484,14 +589,14 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            Hacking is not the only way to earn money. One other way to passively earn money is by purchasing and
-            upgrading Hacknet Nodes. Let's go to
+            Hacking isn't the only way to earn money. One other way to passively earn money is to purchase and upgrade
+            Hacknet Nodes. Let's go to{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <AccountTreeIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Hacknet</Typography>
+            </Box>{" "}
+            .
           </Typography>
-          <ListItem>
-            <AccountTreeIcon color={"error"} />
-            <Typography color={"error"}>Hacknet</Typography>
-          </ListItem>
-          <Typography>through the main navigation menu now.</Typography>
         </>
       ),
       canNext: false,
@@ -499,7 +604,7 @@ export async function main(ns) {
     [iTutorialSteps.HacknetNodesIntroduction as number]: {
       content: (
         <Typography>
-          Here you can purchase new Hacknet Nodes and upgrade your existing ones. Let's purchase a new one now.
+          Here you can purchase new Hacknet Nodes and upgrade your existing ones. Let's purchase a new one.
         </Typography>
       ),
       canNext: true,
@@ -508,16 +613,16 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            You just purchased a Hacknet Node! This Hacknet Node will passively earn you money over time, both online
-            and offline. When you get enough money, you can upgrade your newly-purchased Hacknet Node below.
+            Hacknet Nodes earn you money over time, both online and offline. When you get enough money, you can upgrade
+            your newly-purchased Hacknet Node below.
             <br />
             <br />
-            Let's go to
+            Let's go to{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <LocationCityIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>City</Typography>
+            </Box>{" "}
           </Typography>
-          <ListItem>
-            <LocationCityIcon color={"error"} />
-            <Typography color={"error"}>City</Typography>
-          </ListItem>
         </>
       ),
       canNext: false,
@@ -526,16 +631,17 @@ export async function main(ns) {
       content: (
         <>
           <Typography>
-            This page lists all of the different locations you can currently travel to. Each location has something that
-            you can do. There's a lot of content out in the world, make sure you explore and discover!
+            This page lists all of the locations in your current city. Each location has something that you can do.
+            There's a lot of content out in the world, so make sure you explore and discover!
             <br />
             <br />
-            Lastly, click on
+            Lastly, click on{" "}
+            <Box sx={{ display: "inline-flex", alignItems: "center", verticalAlign: "bottom" }}>
+              <HelpIcon sx={{ color: theme.palette.info.main, mr: 0.5 }} />
+              <Typography sx={{ color: theme.palette.info.main }}>Documentation</Typography>
+            </Box>{" "}
+            .
           </Typography>
-          <ListItem>
-            <HelpIcon color={"error"} />
-            <Typography color={"error"}>Documentation</Typography>
-          </ListItem>
         </>
       ),
       canNext: false,
@@ -543,40 +649,46 @@ export async function main(ns) {
     [iTutorialSteps.DocumentationPageInfo as number]: {
       content: (
         <Typography component="div">
-          This page contains a lot of different documentation about the game's contents and mechanics. I know it's a
-          lot, but I highly suggest you read (or at least skim) through this before you start playing. Some pages are
-          inaccessible at the start and will be unlocked later.
+          The pages in the Documentation tab explain the game's content and mechanics. I know it looks a lot, but I
+          highly suggest you read (or at least skim) through this before you start playing.
           <br />
           <br />
-          If you click a link in these pages while holding Ctrl key (Control key on Mac keyboard), it will be opened in
-          a new tab. If you play the Steam version, that link will be opened in your default browser.
-          <br />
-          <br />
-          You should at least check these pages:
+          If you look at nothing else, the three pages I'd recommend are:
           <ul>
             <li>
-              The <DocumentationLink page="help/getting_started.md">Beginner's guide</DocumentationLink> contains the
-              guide for new players, navigating you through most of the early game.
+              the <DocumentationLink page="help/getting_started.md">Beginner's guide</DocumentationLink>, which gives
+              you an <strong>invaluable</strong> basic hacking script, and which helps you navigate through most of the
+              early game
             </li>
             <li>
-              The <DocumentationLink page={defaultNsApiPage}>NS API documentation</DocumentationLink> contains reference
-              materials for all NS APIs.
+              the <DocumentationLink page={defaultNsApiPage}>NS API documentation</DocumentationLink>, which contains
+              reference materials for all NS APIs
             </li>
             <li>
-              The <DocumentationLink page="help/faq.md">FAQ</DocumentationLink> contains questions often asked by
-              beginners of the game.
+              the <DocumentationLink page="help/faq.md">FAQ</DocumentationLink>, which answers questions often asked by
+              beginners
             </li>
           </ul>
-          <Typography fontWeight="fontWeightBold">
-            This documentation page is the best place to get up-to-date information, especially when you get stuck. If
-            you have a question and cannot find the answer here, please ask us on Discord.
-          </Typography>
+          You'll notice that some of the pages are inaccessible right now. You'll unlock those later on.
+          <br />
+          <br />
+          If you want to open one of the Documentaion page links in a new tab, click it while holding Ctrl (Control on a
+          Mac keyboard). If you're playing the Steam version, doing that will open the link in your default browser.
+          <br />
+          <br />
+          While the documentation page is the best place to get information, especially when you're stuck, if you can't
+          find the answer here then please{" "}
+          <Link href="https://discord.com/channels/415207508303544321/415207508303544323" underline="hover">
+            ask us on Discord
+          </Link>
+          .
+          <br />
           <br />
           <Typography color={Settings.theme.warning}>
-            The documentation at readthedocs is outdated and unmaintained. Do not use them!
+            The documentation at readthedocs is outdated and unmaintained. Do not use it!
           </Typography>
           <br />
-          That's the end of the tutorial. Hope you enjoy the game!
+          And that's the end of the tutorial. We hope you enjoy the game!
         </Typography>
       ),
       canNext: true,
@@ -597,7 +709,7 @@ export async function main(ns) {
     throw new Error(`Invalid step in the tutorial: ${step}`);
   }
   return (
-    <Paper square sx={{ maxWidth: "70vw", p: 2 }}>
+    <Paper square sx={{ width: "50vw", minWidth: "50vw", p: 2 }}>
       {content.content}
       <br />
       {step !== iTutorialSteps.DocumentationPageInfo && (

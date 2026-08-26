@@ -120,6 +120,14 @@ const useStyles = makeStyles()((theme: Theme) => ({
     borderLeft: "3px solid " + theme.palette.primary.main,
   },
   listitem: {},
+  // To explain why I did this daft shit: Lots of elements here are setting their colour using color="error" or similar.
+  // The problem is that Typography doesn't have the same list of possible colours as other items. In particular, it's missing
+  // "info". Do <Typography color="info> and it turns the text black. So unlike everything else, it needs the theme colours
+  // passed to it. Ideally everything should consume useTheme() and be on the same scheme, but that's a refactor that I don't
+  // have the skill to execute.
+  themeColorPrimary: { color: theme.palette.primary.main },
+  themeColorSecondary: { color: theme.palette.secondary.main },
+  themeColorInfo: { color: theme.palette.info.main },
 }));
 
 export function SidebarRoot(props: { page: Page }): React.ReactElement {
@@ -128,15 +136,14 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
 
   let flash: Page | null = null;
   switch (ITutorial.currStep) {
-    case iTutorialSteps.CharacterGoToTerminalPage:
     case iTutorialSteps.ActiveScriptsPage:
       flash = Page.Terminal;
       break;
-    case iTutorialSteps.GoToCharacterPage:
-      flash = Page.Stats;
-      break;
     case iTutorialSteps.TerminalGoToActiveScriptsPage:
       flash = Page.ActiveScripts;
+      break;
+    case iTutorialSteps.GoToCharacterPage:
+      flash = Page.Stats;
       break;
     case iTutorialSteps.GoToHacknetNodesPage:
       flash = Page.Hacknet;
@@ -328,7 +335,7 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
         () => (
           <ListItem classes={li_classes} button onClick={toggleDrawer}>
             <ListItemIcon>
-              <ChevronOpenClose color={"primary"} />
+              <ChevronOpenClose color={"primary"}/>
             </ListItemIcon>
             <ListItemText
               primary={

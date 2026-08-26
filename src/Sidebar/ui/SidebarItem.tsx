@@ -19,12 +19,16 @@ export interface ICreateProps {
 export interface SidebarItemProps extends ICreateProps {
   clickFn: () => void;
   flash: boolean;
-  classes: Record<"listitem" | "active", string>;
+  classes: Record<"listitem" | "active" | "themeColorPrimary" | "themeColorSecondary" | "themeColorInfo", string>;
   sidebarOpen: boolean;
 }
 
 export const SidebarItem = memo(function SidebarItem(props: SidebarItemProps): React.ReactElement {
-  const color = props.flash ? "error" : props.active ? "primary" : "secondary";
+  const colorClass = props.flash
+    ? props.classes.themeColorInfo
+    : props.active
+    ? props.classes.themeColorPrimary
+    : props.classes.themeColorSecondary;
   return (
     <ListItem
       classes={{ root: props.classes.listitem }}
@@ -36,12 +40,12 @@ export const SidebarItem = memo(function SidebarItem(props: SidebarItemProps): R
       <ListItemIcon>
         <Badge badgeContent={(props.count ?? 0) > 0 ? props.count : undefined} color="error">
           <Tooltip title={!props.sidebarOpen ? props.key_ : ""}>
-            <props.icon color={color} />
+            <props.icon className={colorClass} />
           </Tooltip>
         </Badge>
       </ListItemIcon>
       <ListItemText>
-        <Typography color={color}>{props.key_}</Typography>
+        <Typography className={colorClass}>{props.key_}</Typography>
       </ListItemText>
     </ListItem>
   );

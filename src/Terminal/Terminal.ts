@@ -12,6 +12,7 @@ import { GetServer } from "../Server/AllServers";
 
 import { checkIfConnectedToDarkweb } from "../DarkWeb/DarkWeb";
 import { iTutorialNextStep, iTutorialSteps, ITutorial } from "../InteractiveTutorial";
+import { tutorialScriptName } from "../ui/InteractiveTutorial/InteractiveTutorialRoot";
 import { parseCommand, parseCommands } from "./Parser";
 import { Settings } from "../Settings/Settings";
 import { createProgressBarText } from "../utils/helpers/createProgressBarText";
@@ -347,7 +348,7 @@ export class Terminal {
         throw new Error("Could not get n00dles server");
       }
       const errorMessageForBadCommand =
-        "Bad command. Please follow the tutorial or click 'Exit Tutorial' if you'd like to skip it.";
+        "Wrong command! Try again, or if you'd like to skip the tutorial click Exit Tutorial";
       switch (ITutorial.currStep) {
         case iTutorialSteps.TerminalHelp:
           if (commandArray.length === 1 && commandArray[0] === "help") {
@@ -417,7 +418,10 @@ export class Terminal {
           }
           break;
         case iTutorialSteps.TerminalNuke:
-          if (commandArray.length === 2 && commandArray[0] === "run" && commandArray[1] === "NUKE.exe") {
+          if (
+            (commandArray.length === 2 && commandArray[0] === "run" && commandArray[1] === "NUKE.exe") ||
+            commandArray[0] === "NUKE.exe"
+          ) {
             iTutorialNextStep();
           } else {
             this.error(errorMessageForBadCommand);
@@ -438,6 +442,12 @@ export class Terminal {
             return;
           }
           break;
+        case iTutorialSteps.TerminalWeakenGrowMechanics:
+          if (commandArray.length !== 1 || !["grow", "weaken", "hack"].includes(commandArray[0] + "")) {
+            this.error(errorMessageForBadCommand);
+            return;
+          }
+          break;
         case iTutorialSteps.TerminalGoHome:
           if (commandArray.length === 1 && commandArray[0] === "home") {
             iTutorialNextStep();
@@ -447,8 +457,13 @@ export class Terminal {
           }
           break;
         case iTutorialSteps.TerminalCreateScript:
-          if (commandArray.length === 2 && commandArray[0] === "nano" && commandArray[1] === "n00dles.js") {
-            iTutorialNextStep();
+          if (commandArray.length === 2) {
+            if (commandArray[0] === "nano" && commandArray[1] === tutorialScriptName) {
+              iTutorialNextStep();
+            } else {
+              this.error("Wrong command! Try again!");
+              return;
+            }
           } else {
             this.error(errorMessageForBadCommand);
             return;
@@ -463,7 +478,10 @@ export class Terminal {
           }
           break;
         case iTutorialSteps.TerminalRunScript:
-          if (commandArray.length === 2 && commandArray[0] === "run" && commandArray[1] === "n00dles.js") {
+          if (
+            (commandArray.length === 2 && commandArray[0] === "run" && commandArray[1] === tutorialScriptName) ||
+            commandArray[0] === tutorialScriptName
+          ) {
             iTutorialNextStep();
           } else {
             this.error(errorMessageForBadCommand);
@@ -471,15 +489,28 @@ export class Terminal {
           }
           break;
         case iTutorialSteps.ActiveScriptsToTerminal:
-          if (commandArray.length === 2 && commandArray[0] === "tail" && commandArray[1] === "n00dles.js") {
+          if (commandArray.length === 2 && commandArray[0] === "tail" && commandArray[1] === tutorialScriptName) {
             iTutorialNextStep();
           } else {
             this.error(errorMessageForBadCommand);
             return;
           }
           break;
+        case iTutorialSteps.TerminalScp:
+          if (commandArray.length === 3) {
+            if (commandArray[0] === "scp" && commandArray[1] === tutorialScriptName && commandArray[2] === "n00dles") {
+              iTutorialNextStep();
+            } else {
+              this.error("Wrong command! Try again!");
+              return;
+            }
+          } else {
+            this.error(errorMessageForBadCommand);
+            return;
+          }
+          break;
         default:
-          this.error("Please follow the tutorial or click 'Exit Tutorial' if you'd like to skip it");
+          this.error("Make sure you're following the tutorial. If you'd like to skip it click Exit Tutorial");
           return;
       }
     }
