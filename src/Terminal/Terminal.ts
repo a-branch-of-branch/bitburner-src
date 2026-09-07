@@ -393,7 +393,7 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.TerminalConnectN00dles:
+        case iTutorialSteps.TerminalConnect:
           if (commandArray[0] === "connect") {
             if (
               commandArray.length === 2 &&

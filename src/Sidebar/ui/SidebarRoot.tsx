@@ -129,7 +129,7 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
   let flash: Page | null = null;
   let incrementTutorialStep = false;
   switch (ITutorial.currStep) {
-    case iTutorialSteps.ActiveScriptsExplanation:
+    case iTutorialSteps.ActiveScriptsDescription:
       flash = Page.Terminal;
       incrementTutorialStep = true;
       break;
@@ -142,15 +142,15 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
         flash = Page.ScriptEditor;
       }
       break;
-    case iTutorialSteps.ScriptEditorGoToTerminal:
+    case iTutorialSteps.ScriptEditorGoToTerminalPage:
       flash = Page.Terminal;
       incrementTutorialStep = true;
       break;
-    case iTutorialSteps.TerminalGoToCharacterStats:
+    case iTutorialSteps.TerminalGoToCharacterStatsPage:
       flash = Page.Stats;
       incrementTutorialStep = true;
       break;
-    case iTutorialSteps.CharacterStatsGoToWorld:
+    case iTutorialSteps.CharacterStatsGoToWorldPage:
       flash = Page.City;
       incrementTutorialStep = true;
       break;

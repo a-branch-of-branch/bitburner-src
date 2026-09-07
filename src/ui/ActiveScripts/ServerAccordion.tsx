@@ -43,7 +43,7 @@ export function ServerAccordion({ server, scripts, startOpen }: ServerAccordionP
             <Typography
               sx={{
                 whiteSpace: "pre-wrap",
-                color: ITutorial.currStep === iTutorialSteps.ActiveScriptsExplanation ? "info.main" : "primary.main",
+                color: ITutorial.currStep === iTutorialSteps.ActiveScriptsDescription ? "info.main" : "primary.main",
               }}
             >
               {headerTxt}

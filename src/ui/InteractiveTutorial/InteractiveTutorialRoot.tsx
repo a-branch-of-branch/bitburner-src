@@ -130,7 +130,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalConnectN00dles as number]: {
+    [iTutorialSteps.TerminalConnect as number]: {
       content: (
         <>
           <Typography>
@@ -365,7 +365,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.ScriptEditorGoToTerminal as number]: {
+    [iTutorialSteps.ScriptEditorGoToTerminalPage as number]: {
       content: (
         <>
           <Typography>
@@ -434,7 +434,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.ActiveScriptsExplanation as number]: {
+    [iTutorialSteps.ActiveScriptsDescription as number]: {
       content: (
         <>
           <Typography>
@@ -540,7 +540,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalGoToCharacterStats as number]: {
+    [iTutorialSteps.TerminalGoToCharacterStatsPage as number]: {
       content: (
         <>
           <Typography>
@@ -555,7 +555,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.CharacterStatsExplanation as number]: {
+    [iTutorialSteps.CharacterStatsDescription as number]: {
       content: (
         <>
           <Typography>
@@ -569,7 +569,7 @@ export async function main(ns) {
       ),
       canNext: true,
     },
-    [iTutorialSteps.CharacterStatsGoToWorld as number]: {
+    [iTutorialSteps.CharacterStatsGoToWorldPage as number]: {
       content: (
         <>
           <Typography>
@@ -607,7 +607,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.DocumenationExplanation as number]: {
+    [iTutorialSteps.DocumentationInfo as number]: {
       content: (
         <Typography component="div">
           These pages explain the game's content and mechanics. I know it's a lot, but I highly suggest you read (or at
@@ -676,7 +676,7 @@ export async function main(ns) {
     <Paper square sx={{ width: "50vw", minWidth: "50vw", p: 2 }}>
       {content.content}
       <br />
-      {step !== iTutorialSteps.DocumenationExplanation && (
+      {step !== iTutorialSteps.DocumentationInfo && (
         <>
           {step !== iTutorialSteps.Start && (
             <Button onClick={iTutorialPrevStep} aria-label="previous" style={{ marginRight: "1em" }}>
@@ -695,7 +695,7 @@ export async function main(ns) {
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
         <Box>
           <Button onClick={iTutorialEnd}>
-            {step !== iTutorialSteps.DocumenationExplanation ? "Exit Tutorial" : "Finish Tutorial"}
+            {step !== iTutorialSteps.DocumentationInfo ? "Exit Tutorial" : "Finish Tutorial"}
           </Button>
         </Box>
         <Box>
