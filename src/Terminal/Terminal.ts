@@ -348,7 +348,7 @@ export class Terminal {
         throw new Error("Could not get n00dles server");
       }
       const errorMessageForBadCommand =
-        "Wrong command. Try again, or if you'd like to skip the tutorial click Exit Tutorial";
+        "Bad command. Try again, or if you'd like to skip the tutorial click Exit Tutorial";
       switch (ITutorial.currStep) {
         case iTutorialSteps.TerminalHelp:
           if (commandArray.length === 1 && commandArray[0] === "help") {
@@ -377,7 +377,7 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.TerminalScanAnalyze1:
+        case iTutorialSteps.TerminalScanAnalyze:
           if (commandArray.length === 1 && commandArray[0] === "scan-analyze") {
             iTutorialNextStep();
           } else {
@@ -393,7 +393,7 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.TerminalConnect:
+        case iTutorialSteps.TerminalConnectN00dles:
           if (commandArray[0] === "connect") {
             if (
               commandArray.length === 2 &&
@@ -401,7 +401,7 @@ export class Terminal {
             ) {
               iTutorialNextStep();
             } else {
-              this.error("Wrong command. Try again!");
+              this.error("Bad command. Try again!");
               return;
             }
           } else {
@@ -436,13 +436,13 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.TerminalHackingMechanics:
+        case iTutorialSteps.TerminalHackWeakenGrowMechanics:
           if (commandArray.length !== 1 || !["grow", "weaken", "hack"].includes(commandArray[0] + "")) {
             this.error(errorMessageForBadCommand);
             return;
           }
           break;
-        case iTutorialSteps.TerminalGoHome:
+        case iTutorialSteps.TerminalHome:
           if (commandArray.length === 1 && commandArray[0] === "home") {
             iTutorialNextStep();
           } else {
@@ -450,12 +450,12 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.TerminalCreateScript:
+        case iTutorialSteps.TerminalNano:
           if (commandArray[0] === "nano") {
             if (commandArray.length === 2 && commandArray[1] === tutorialScriptName) {
               iTutorialNextStep();
             } else {
-              this.error("Wrong command. Try again!");
+              this.error("Bad command. Try again!");
               return;
             }
           } else {
@@ -494,7 +494,7 @@ export class Terminal {
             return;
           }
           break;
-        case iTutorialSteps.ActiveScriptsToTerminal:
+        case iTutorialSteps.TerminalTail:
           if (commandArray.length === 2 && commandArray[0] === "tail" && commandArray[1] === tutorialScriptName) {
             iTutorialNextStep();
           } else {
@@ -507,7 +507,7 @@ export class Terminal {
             if (commandArray.length === 3 && commandArray[1] === tutorialScriptName && commandArray[2] === "n00dles") {
               iTutorialNextStep();
             } else {
-              this.error("Wrong command. Try again!");
+              this.error("Bad command. Try again!");
               return;
             }
           } else {

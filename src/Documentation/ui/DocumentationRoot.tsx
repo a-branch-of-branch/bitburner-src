@@ -77,7 +77,7 @@ export function DocumentationRoot({ docPage }: { docPage?: string }): React.Reac
    * visits the documentation page for the Docs step, they see index.md / home.
    */
   useEffect(() => {
-    if (ITutorial.currStep === iTutorialSteps.DocumentationPageInfo) {
+    if (ITutorial.currStep === iTutorialSteps.DocumenationExplanation) {
       history.home();
     }
 

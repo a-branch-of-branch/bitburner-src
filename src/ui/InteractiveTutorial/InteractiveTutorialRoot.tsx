@@ -98,7 +98,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalScanAnalyze1 as number]: {
+    [iTutorialSteps.TerminalScanAnalyze as number]: {
       content: (
         <>
           <Typography>
@@ -130,7 +130,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalConnect as number]: {
+    [iTutorialSteps.TerminalConnectN00dles as number]: {
       content: (
         <>
           <Typography>
@@ -161,8 +161,8 @@ export function InteractiveTutorialRoot(): React.ReactElement {
             servers and computers. Using specialised skills, you can hack servers to steal money and gain experience.
             <br />
             <br />
-            You've got the hacking skill needed to hack n00dles – scan-analyze showed us that n00dles has a required
-            hacking skill of 1.
+            You've got the hacking skill needed to hack n00dles – if you check scan-analyze, you'll see n00dles has a
+            required hacking skill of 1.
             <br />
             <br />
             But there's something else we need as well. To see what, let's run some diagnostics using
@@ -210,7 +210,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalHackingMechanics as number]: {
+    [iTutorialSteps.TerminalHackWeakenGrowMechanics as number]: {
       content: (
         <>
           <Typography>
@@ -250,7 +250,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: true,
     },
-    [iTutorialSteps.TerminalGoHome as number]: {
+    [iTutorialSteps.TerminalHome as number]: {
       content: (
         <>
           <Typography>
@@ -271,7 +271,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       canNext: false,
     },
 
-    [iTutorialSteps.TerminalCreateScript as number]: {
+    [iTutorialSteps.TerminalNano as number]: {
       content: (
         <>
           <Typography>
@@ -294,7 +294,7 @@ export function InteractiveTutorialRoot(): React.ReactElement {
       ),
       canNext: false,
     },
-    [iTutorialSteps.ScriptEditorEdit as number]: {
+    [iTutorialSteps.ScriptEditorEditAndSave as number]: {
       content: (
         <>
           <Typography>
@@ -434,7 +434,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.ActiveScriptsPage as number]: {
+    [iTutorialSteps.ActiveScriptsExplanation as number]: {
       content: (
         <>
           <Typography>
@@ -442,10 +442,18 @@ export async function main(ns) {
             scripts are doing.
             <br />
             <br />
-            Click home to see the scripts running on it.
+            Click{" "}
+            <Box component="span" sx={{ color: "info.main" }}>
+              home
+            </Box>{" "}
+            to see the scripts running on it.
             <br />
             <br />
-            Then click {tutorialScriptName} to see some data about it.
+            Then click{" "}
+            <Box component="span" sx={{ color: "info.main" }}>
+              {tutorialScriptName}
+            </Box>{" "}
+            to see some data about it.
             <br />
             <br />
             When you're ready, let's go back to the{" "}
@@ -458,7 +466,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.ActiveScriptsToTerminal as number]: {
+    [iTutorialSteps.TerminalTail as number]: {
       content: (
         <>
           <Typography>
@@ -472,7 +480,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalTailScript as number]: {
+    [iTutorialSteps.TerminalTailOutcome as number]: {
       content: (
         <>
           <Typography>
@@ -532,7 +540,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.GoToCharacterPage as number]: {
+    [iTutorialSteps.TerminalGoToCharacterStats as number]: {
       content: (
         <>
           <Typography>
@@ -547,7 +555,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.CharacterPage as number]: {
+    [iTutorialSteps.CharacterStatsExplanation as number]: {
       content: (
         <>
           <Typography>
@@ -561,7 +569,7 @@ export async function main(ns) {
       ),
       canNext: true,
     },
-    [iTutorialSteps.GoToWorldPage as number]: {
+    [iTutorialSteps.CharacterStatsGoToWorld as number]: {
       content: (
         <>
           <Typography>
@@ -599,7 +607,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.DocumentationPageInfo as number]: {
+    [iTutorialSteps.DocumenationExplanation as number]: {
       content: (
         <Typography component="div">
           These pages explain the game's content and mechanics. I know it's a lot, but I highly suggest you read (or at
@@ -668,7 +676,7 @@ export async function main(ns) {
     <Paper square sx={{ width: "50vw", minWidth: "50vw", p: 2 }}>
       {content.content}
       <br />
-      {step !== iTutorialSteps.DocumentationPageInfo && (
+      {step !== iTutorialSteps.DocumenationExplanation && (
         <>
           {step !== iTutorialSteps.Start && (
             <Button onClick={iTutorialPrevStep} aria-label="previous" style={{ marginRight: "1em" }}>
@@ -687,7 +695,7 @@ export async function main(ns) {
       <Box sx={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 1 }}>
         <Box>
           <Button onClick={iTutorialEnd}>
-            {step !== iTutorialSteps.DocumentationPageInfo ? "Exit Tutorial" : "Finish Tutorial"}
+            {step !== iTutorialSteps.DocumenationExplanation ? "Exit Tutorial" : "Finish Tutorial"}
           </Button>
         </Box>
         <Box>

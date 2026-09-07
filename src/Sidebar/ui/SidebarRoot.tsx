@@ -129,7 +129,7 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
   let flash: Page | null = null;
   let shouldIncrementTutorial = false;
   switch (ITutorial.currStep) {
-    case iTutorialSteps.ActiveScriptsPage:
+    case iTutorialSteps.ActiveScriptsExplanation:
       flash = Page.Terminal;
       shouldIncrementTutorial = true;
       break;
@@ -137,7 +137,7 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
       flash = Page.ActiveScripts;
       shouldIncrementTutorial = true;
       break;
-    case iTutorialSteps.ScriptEditorEdit:
+    case iTutorialSteps.ScriptEditorEditAndSave:
       if (props.page !== Page.ScriptEditor) {
         flash = Page.ScriptEditor;
       }
@@ -146,11 +146,11 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
       flash = Page.Terminal;
       shouldIncrementTutorial = true;
       break;
-    case iTutorialSteps.GoToCharacterPage:
+    case iTutorialSteps.TerminalGoToCharacterStats:
       flash = Page.Stats;
       shouldIncrementTutorial = true;
       break;
-    case iTutorialSteps.GoToWorldPage:
+    case iTutorialSteps.CharacterStatsGoToWorld:
       flash = Page.City;
       shouldIncrementTutorial = true;
       break;

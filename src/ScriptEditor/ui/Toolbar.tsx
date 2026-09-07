@@ -89,7 +89,7 @@ export function Toolbar({ editor, onSave, onRun, onBeautify }: IProps) {
         </Button>
         <Tooltip title={parseKeyCombinationsToString(CurrentKeyBindings[ScriptEditorAction.Save])}>
           <Button
-            color={ITutorial.currStep === iTutorialSteps.ScriptEditorEdit ? "info" : "primary"}
+            color={ITutorial.currStep === iTutorialSteps.ScriptEditorEditAndSave ? "info" : "primary"}
             onClick={() => {
               onSave().catch((error) => console.error(error));
             }}
