@@ -127,15 +127,15 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
   useCycleRerender();
 
   let flash: Page | null = null;
-  let shouldIncrementTutorial = false;
+  let incrementTutorialStep = false;
   switch (ITutorial.currStep) {
     case iTutorialSteps.ActiveScriptsExplanation:
       flash = Page.Terminal;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
     case iTutorialSteps.TerminalGoToActiveScriptsPage:
       flash = Page.ActiveScripts;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
     case iTutorialSteps.ScriptEditorEditAndSave:
       if (props.page !== Page.ScriptEditor) {
@@ -144,19 +144,19 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
       break;
     case iTutorialSteps.ScriptEditorGoToTerminal:
       flash = Page.Terminal;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
     case iTutorialSteps.TerminalGoToCharacterStats:
       flash = Page.Stats;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
     case iTutorialSteps.CharacterStatsGoToWorld:
       flash = Page.City;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
     case iTutorialSteps.WorldDescription:
       flash = Page.Documentation;
-      shouldIncrementTutorial = true;
+      incrementTutorialStep = true;
       break;
   }
 
@@ -205,11 +205,11 @@ export function SidebarRoot(props: { page: Page }): React.ReactElement {
       } else {
         throw new Error("Can't handle click on Page " + page);
       }
-      if (flash === page && shouldIncrementTutorial) {
+      if (flash === page && incrementTutorialStep) {
         iTutorialNextStep();
       }
     },
-    [flash, shouldIncrementTutorial],
+    [flash, incrementTutorialStep],
   );
 
   /**
