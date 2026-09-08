@@ -430,7 +430,7 @@ export class Terminal {
           break;
 
         default:
-          this.error("This step doesn't involve the terminal");
+          this.error("This tutorial step doesn't involve the terminal");
           return;
       }
 
