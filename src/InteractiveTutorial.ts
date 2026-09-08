@@ -61,7 +61,7 @@ const ITutorial = {
     [iTutorialSteps.ScriptEditorRam]: false,
     [iTutorialSteps.ScriptEditorGoToTerminalPage]: false,
     [iTutorialSteps.TerminalFree]: false,
-    [iTutorialSteps.TerminalRunScript]: false,
+    [iTutorialSteps.TerminalRun]: false,
     [iTutorialSteps.TerminalGoToActiveScriptsPage]: false,
     [iTutorialSteps.ActiveScriptsDescription]: false,
     [iTutorialSteps.TerminalTail]: false,
