@@ -76,12 +76,12 @@ export function Toolbar({ editor, onSave, onRun, onBeautify }: IProps) {
             whiteSpace: "nowrap",
             color: isUpdatingRAM
               ? "secondary.main"
-              : ITutorial.currStep === iTutorialSteps.ScriptEditorRam
+              : ITutorial.isRunning && ITutorial.currStep === iTutorialSteps.ScriptEditorRam
               ? "info.main"
               : "primary.main",
           }}
           onClick={() => {
-            if (ITutorial.currStep === iTutorialSteps.ScriptEditorRam) iTutorialNextStep();
+            if (ITutorial.isRunning && ITutorial.currStep === iTutorialSteps.ScriptEditorRam) iTutorialNextStep();
             openRAMInfo();
           }}
         >
