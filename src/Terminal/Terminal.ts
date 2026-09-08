@@ -348,7 +348,7 @@ export class Terminal {
         throw new Error("Could not get n00dles server");
       }
 
-      const commandArrayMatches = (...rightCommand: string[]): boolean =>
+      const commandArrayMatches = (...rightCommand: (string | number)[]): boolean =>
         commandArray.length === rightCommand.length && commandArray.every((e, idx) => e === rightCommand[idx]);
 
       const errorMessageForBadCommand = "Wrong command. Try again.";
@@ -366,7 +366,7 @@ export class Terminal {
           break;
 
         case iTutorialSteps.TerminalScanAnalyze2:
-          isCorrect = commandArrayMatches("scan-analyze", "2");
+          isCorrect = commandArrayMatches("scan-analyze", 2);
           break;
 
         case iTutorialSteps.TerminalConnect:
@@ -374,7 +374,7 @@ export class Terminal {
             isCorrect = true;
           } else if (
             // gives the player some freedom
-            commandArrayMatches("scan-analyze", "3")
+            commandArrayMatches("scan-analyze", 3)
           ) {
             isCorrect = true;
             incrementStep = false;
@@ -397,6 +397,7 @@ export class Terminal {
 
         case iTutorialSteps.TerminalHackWeakenGrowMechanics:
           isCorrect = ["hack", "weaken", "grow"].some((c) => commandArrayMatches(c));
+          incrementStep = false;
           break;
 
         case iTutorialSteps.TerminalHome:
@@ -447,7 +448,7 @@ export class Terminal {
           break;
 
         default:
-          this.error("This step doesn't involve the terminal.");
+          this.error("This step doesn't involve the terminal");
           return;
       }
 
