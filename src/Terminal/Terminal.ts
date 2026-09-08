@@ -361,6 +361,10 @@ export class Terminal {
           isCorrect = commandArrayMatches("scan");
           break;
 
+        case iTutorialSteps.TerminalScanAnalyze:
+          isCorrect = commandArrayMatches("scan-analyze");
+          break;
+
         case iTutorialSteps.TerminalScanAnalyze2:
           isCorrect = commandArrayMatches("scan-analyze", "2");
           break;
