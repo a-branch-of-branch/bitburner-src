@@ -10,7 +10,6 @@ import LastPageIcon from "@mui/icons-material/LastPage";
 import HelpIcon from "@mui/icons-material/Help";
 import StorageIcon from "@mui/icons-material/Storage";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-import { styled } from "@mui/material/styles";
 
 import {
   iTutorialPrevStep,
@@ -23,6 +22,12 @@ import { useRerender } from "../React/hooks";
 import { DocumentationLink } from "../React/DocumentationLink";
 import { defaultNsApiPage } from "../React/Documentation";
 
+function TerminalText({ children }: { children: React.ReactNode }): React.ReactElement {
+  return (
+    <Typography sx={{ borderBottom: (theme) => `1px solid ${theme.palette.primary.main}` }}>{children}</Typography>
+  );
+}
+
 interface IContent {
   content: React.ReactElement;
   canNext: boolean;
@@ -31,9 +36,6 @@ interface IContent {
 export const tutorialScriptName = `hacking.js`;
 
 export function InteractiveTutorialRoot(): React.ReactElement {
-  const TerminalText = styled(Typography)(({ theme }) => ({
-    borderBottom: `1px solid ${theme.palette.primary.main}`,
-  }));
   const rerender = useRerender();
 
   const contents: Record<string, IContent | undefined> = {
