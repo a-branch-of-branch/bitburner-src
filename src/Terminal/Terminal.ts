@@ -370,17 +370,7 @@ export class Terminal {
           break;
 
         case iTutorialSteps.TerminalConnect:
-          if (commandArrayMatches("connect", "n00dles") || commandArrayMatches("connect", n00dlesServ.hostname)) {
-            isCorrect = true;
-          } else if (
-            // gives the player some freedom
-            commandArrayMatches("scan-analyze", 3)
-          ) {
-            isCorrect = true;
-            incrementStep = false;
-          } else {
-            isCorrect = false;
-          }
+          isCorrect = commandArrayMatches("connect", "n00dles") || commandArrayMatches("connect", n00dlesServ.hostname);
           break;
 
         case iTutorialSteps.TerminalAnalyze:
@@ -414,14 +404,6 @@ export class Terminal {
 
         case iTutorialSteps.TerminalRunScript:
           isCorrect = commandArrayMatches("run", tutorialScriptName) || commandArrayMatches(tutorialScriptName);
-          break;
-
-        case iTutorialSteps.TerminalGoToActiveScriptsPage: // gives the player some freedom
-          isCorrect =
-            commandArrayMatches("free") ||
-            commandArrayMatches(tutorialScriptName) ||
-            commandArrayMatches("run", tutorialScriptName);
-          incrementStep = false;
           break;
 
         case iTutorialSteps.TerminalTail:
