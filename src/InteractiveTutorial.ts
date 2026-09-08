@@ -21,7 +21,7 @@ enum iTutorialSteps {
   ScriptEditorRam,
   ScriptEditorGoToTerminalPage,
   TerminalFree,
-  TerminalRunScript,
+  TerminalRun,
   TerminalGoToActiveScriptsPage, // Also explains a bit about running scripts
   ActiveScriptsDescription,
   TerminalTail,
@@ -61,7 +61,7 @@ const ITutorial = {
     [iTutorialSteps.ScriptEditorRam]: false,
     [iTutorialSteps.ScriptEditorGoToTerminalPage]: false,
     [iTutorialSteps.TerminalFree]: false,
-    [iTutorialSteps.TerminalRunScript]: false,
+    [iTutorialSteps.TerminalRun]: false,
     [iTutorialSteps.TerminalGoToActiveScriptsPage]: false,
     [iTutorialSteps.ActiveScriptsDescription]: false,
     [iTutorialSteps.TerminalTail]: false,

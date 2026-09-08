@@ -402,7 +402,7 @@ export class Terminal {
           isCorrect = commandArrayMatches("free");
           break;
 
-        case iTutorialSteps.TerminalRunScript:
+        case iTutorialSteps.TerminalRun:
           isCorrect = commandArrayMatches("run", tutorialScriptName) || commandArrayMatches(tutorialScriptName);
           break;
 

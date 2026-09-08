@@ -395,7 +395,7 @@ export async function main(ns) {
       ),
       canNext: false,
     },
-    [iTutorialSteps.TerminalRunScript as number]: {
+    [iTutorialSteps.TerminalRun as number]: {
       content: (
         <>
           <Typography>
