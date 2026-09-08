@@ -378,7 +378,7 @@ export class Terminal {
           break;
 
         case iTutorialSteps.TerminalNuke:
-          isCorrect = commandArrayMatches("NUKE.exe") || commandArrayMatches("run", "NUKE.exe");
+          isCorrect = commandArrayMatches("run", "NUKE.exe");
           break;
 
         case iTutorialSteps.TerminalManualHack:
@@ -403,7 +403,7 @@ export class Terminal {
           break;
 
         case iTutorialSteps.TerminalRun:
-          isCorrect = commandArrayMatches("run", tutorialScriptName) || commandArrayMatches(tutorialScriptName);
+          isCorrect = commandArrayMatches("run", tutorialScriptName);
           break;
 
         case iTutorialSteps.TerminalTail:
