@@ -195,16 +195,19 @@ function Root(props: IProps): React.ReactElement {
     const preSave = options.beautifyOnSave ? beautify : () => Promise.resolve();
 
     // this is duplicate code with saving later.
-    if (ITutorial.isRunning && ITutorial.currStep === iTutorialSteps.ScriptEditorEditAndSave) {
+    if (
+      ITutorial.currStep === iTutorialSteps.ScriptEditorEditAndSave ||
+      ITutorial.currStep === iTutorialSteps.ScriptEditorRam
+    ) {
       //Make sure filename + code properly follow tutorial
       if (currentScript.path !== tutorialScriptName) {
-        dialogBoxCreate("Don't change the script name for now.");
+        dialogBoxCreate("Don't change the script's name for now.");
         return;
       }
       const cleanCode = currentScript.code.replace(/\s/g, "");
       const expectedCleanCode = `/**@param{NS}ns*/exportasyncfunctionmain(ns){while(true){awaitns.hack("n00dles");}}`;
       if (!cleanCode.includes(expectedCleanCode)) {
-        dialogBoxCreate("Please copy and paste the code from the tutorial!");
+        dialogBoxCreate("Copy and paste the code from the tutorial. Don't change the code for now.");
         return;
       }
 

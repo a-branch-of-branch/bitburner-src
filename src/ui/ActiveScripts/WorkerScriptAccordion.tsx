@@ -73,10 +73,7 @@ export function WorkerScriptAccordion(props: IProps): React.ReactElement {
             <Typography
               sx={{
                 overflowWrap: "break-word",
-                color:
-                  ITutorial.isRunning && ITutorial.currStep === iTutorialSteps.ActiveScriptsDescription
-                    ? "info.main"
-                    : "primary.main",
+                color: ITutorial.currStep === iTutorialSteps.ActiveScriptsDescription ? "info.main" : "primary.main",
               }}
             >
               └ {props.workerScript.name} ({formatRam(scriptRef.ramUsage * scriptRef.threads)}){" "}
